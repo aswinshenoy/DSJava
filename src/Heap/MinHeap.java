@@ -43,33 +43,31 @@ public class MinHeap {
         arr[p2] = temp;
     }
 
-    private int checkHeap(int i)
+    private void fixHeap(int i)
     {
+        //if no child exists i.e. leaf, no need to fix
         if(!isLeaf(i))
-
+            // if both children exists
             if(getRightChild(i) != -1 && getLeftChild(i) != -1)
                 if(arr[i] > arr[getLeftChild(i)] || arr[i] > arr[getRightChild(i)])
                 {
                     if (arr[getLeftChild(i)] < arr[getRightChild(i)])
-                        return getLeftChild(i);
+                    {
+                        swap(i,getLeftChild(i));
+                        fixHeap(getLeftChild(i));
+                    }
                     else
-                        return getRightChild(i);
+                    {
+                        swap(i,getRightChild(i));
+                        fixHeap(getRightChild(i));
+                    }
                 }
-
+            //if right doesn't exist (there is no case where left doesnt exist, but right exists)
             else if(getRightChild(i) == -1 && arr[i] > arr[getLeftChild(i)])
-                return getLeftChild(i);
-
-        return i;
-    }
-
-    public void fixHeap(int index)
-    {
-        int j = checkHeap(index);
-        if(j==index) return;
-        else {
-            swap(index,j);
-            fixHeap(j);
-        }
+            {
+                swap(i,getLeftChild(i));
+                fixHeap(getLeftChild(i));
+            }
     }
 
     public void buildHeap()
